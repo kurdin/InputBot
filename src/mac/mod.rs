@@ -25,12 +25,16 @@ impl KeybdKey {
 
       pub fn paste(self) {
           
-            let event_source = CGEventSource::new(CGEventSourceStateID::CombinedSessionState)
+          let event_source = CGEventSource::new(CGEventSourceStateID::CombinedSessionState)
                 .expect("Could not create CGEventSource.");
           
-            let event = CGEvent::new_keyboard_event(event_source.clone(), 9, true).unwrap();
-            event.set_flags(CGEventFlags::CGEventFlagControl);
+          let event = CGEvent::new_keyboard_event(event_source.clone(), u64::from(self) as u16, true).unwrap();
+            event.set_flags(CGEventFlags::CGEventFlagCommand);
             event.post(CGEventTapLocation::HID);
+          
+          sleep(Duration::from_millis(50));
+
+          self.release();
              
     }
     
