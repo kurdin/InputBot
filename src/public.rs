@@ -132,6 +132,7 @@ pub enum KeybdKey {
     LBracketKey,
     RBracketKey,
     EqualKey,
+    CommandKey,
 
     #[strum(disabled)]
     OtherKey(u64),
