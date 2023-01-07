@@ -5,7 +5,7 @@ use crate::KeybdKey;
 mod inputs;
 
 use core_graphics::event::{
-    CGEvent, CGEventTapLocation, CGEventType
+    CGEvent, CGEventTapLocation, CGEventType, CGEventFlags
 };
 use std::{
     thread::sleep, time::Duration
@@ -13,7 +13,6 @@ use std::{
 use core_graphics::event_source::{
     CGEventSource, CGEventSourceStateID,
 };
-
 
 impl KeybdKey {
     #[inline(always)]
