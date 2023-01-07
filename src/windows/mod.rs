@@ -257,3 +257,84 @@ fn send_keybd_input(flags: u32, key_code: KeybdKey) {
 
     unsafe { SendInput(1, &mut input as LPINPUT, size_of::<INPUT>() as c_int) };
 }
+
+fn send_paste_input() {
+    let keybdVdown: KEYBDINPUT = unsafe {
+        KEYBDINPUT {
+            wVk: 'V',
+            wScan: 0,
+            dwFlags: 0,
+            time: 0,
+            dwExtraInfo: 0,
+        }
+    };
+
+    let keybdVup: KEYBDINPUT = unsafe {
+        KEYBDINPUT {
+            wVk: 'V',
+            wScan: 0,
+            dwFlags: KEYEVENTF_KEYUP,
+            time: 0,
+            dwExtraInfo: 0,
+        }
+    };
+ 
+    
+    let keybdCONTROLdown: KEYBDINPUT = unsafe {
+        KEYBDINPUT {
+            wVk: VK_CONTROL,
+            wScan: 0,
+            dwFlags: 0,
+            time: 0,
+            dwExtraInfo: 0,
+        }
+    };
+
+   let keybdCONTROLup: KEYBDINPUT = unsafe {
+        KEYBDINPUT {
+            wVk: VK_CONTROL,
+            wScan: 0,
+            dwFlags: KEYEVENTF_KEYUP,
+            time: 0,
+            dwExtraInfo: 0,
+        }
+    };
+
+    
+    // We need an "empty" winapi struct to union-ize
+    let mut input_u: INPUT_u = unsafe { std::mem::zeroed() };
+
+    unsafe {
+        *input_v_down.ki_mut() = keybdVdown;
+        *input_v_up.ki_mut() = keybdVup;
+        *input_control_down.ki_mut() = keybdCONTROLdown;        
+        *input_control_up.ki_mut() = keybdCONTROLup;                
+    }
+
+    let mut inputVdown = INPUT {
+        type_: INPUT_KEYBOARD,
+        u: input_v_down,
+    };
+
+    let mut inputVup = INPUT {
+        type_: INPUT_KEYBOARD,
+        u: input_v_up,
+    };
+
+    let mut inputControldown = INPUT {
+        type_: INPUT_KEYBOARD,
+        u: input_control_down,
+    };
+
+    let mut inputControlup = INPUT {
+        type_: INPUT_KEYBOARD,
+        u: input_control_up,
+    };
+    
+    unsafe { 
+        SendInput(1, &mut inputControldown as LPINPUT, size_of::<INPUT>() as c_int) 
+        SendInput(1, &mut inputVdown as LPINPUT, size_of::<INPUT>() as c_int) 
+        SendInput(1, &mut inputVup as LPINPUT, size_of::<INPUT>() as c_int) 
+        SendInput(1, &mut inputControlup as LPINPUT, size_of::<INPUT>() as c_int)         
+    };
+}
