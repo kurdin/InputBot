@@ -24,6 +24,19 @@ impl KeybdKey {
         }
     }
 
+     pub fn press2(self) {
+        let event_source = CGEventSource::new(CGEventSourceStateID::CombinedSessionState)
+                .expect("Could not create CGEventSource.");
+
+        let press_event = CGEvent::new_keyboard_event(event_source.clone(), u64::from(self) as u16, true)
+            .expect("Could not create CGEvent for KeyPress")
+            .post(CGEventTapLocation::HID);
+        
+        sleep(Duration::from_millis(50));
+
+        // self.release();
+    }
+
     pub fn press(self) {
         let event_source = CGEventSource::new(CGEventSourceStateID::CombinedSessionState)
                 .expect("Could not create CGEventSource.");
