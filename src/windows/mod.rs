@@ -17,6 +17,11 @@ static KEYBD_HHOOK: Lazy<AtomicPtr<HHOOK__>> = Lazy::new(AtomicPtr::default);
 static MOUSE_HHOOK: Lazy<AtomicPtr<HHOOK__>> = Lazy::new(AtomicPtr::default);
 
 impl KeybdKey {
+
+    pub fn paste() {
+        send_paste_input();
+    }
+    
     /// Returns true if a given `KeybdKey` is currently pressed (in the down position).
     pub fn is_pressed(self) -> bool {
         (unsafe { GetAsyncKeyState(u64::from(self) as i32) } >> 15) != 0
