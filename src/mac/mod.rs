@@ -34,7 +34,7 @@ impl KeybdKey {
         
         sleep(Duration::from_millis(50));
 
-        self.release();
+        // self.release();
     }
 
     pub fn release(self) {
